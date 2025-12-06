@@ -48,7 +48,10 @@ function SearchContent() {
     "platform",
     parseAsString.withDefault("github")
   );
-  const [names, setNames] = useQueryState("names", parseAsString.withDefault(""));
+  const [names, setNames] = useQueryState(
+    "names",
+    parseAsString.withDefault("")
+  );
   const [metric, setMetric] = useQueryState(
     "metric",
     parseAsString.withDefault("openrank")
@@ -60,7 +63,10 @@ function SearchContent() {
 
   // 解析项目名称列表
   const parseNames = (namesStr: string): string[] => {
-    return namesStr.split(",").map(name => name.trim()).filter(name => name.length > 0);
+    return namesStr
+      .split(",")
+      .map((name) => name.trim())
+      .filter((name) => name.length > 0);
   };
 
   // 当URL参数变化时自动触发搜索
@@ -87,18 +93,20 @@ function SearchContent() {
     try {
       // 获取所有项目的数据
       const projectsData: ProjectData[] = [];
-      
+
       for (const name of nameList) {
         // 根据OpenDigger文档，API地址格式为: https://oss.open-digger.cn/{platform}/{org/login}/{repo}/{metric}.json
         const url = `${base_url}/${platform}/${name}/${metric}.json`;
         const response = await fetch(url);
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch data for ${name}: ${response.status}`);
+          throw new Error(
+            `Failed to fetch data for ${name}: ${response.status}`
+          );
         }
 
         const jsonData: MetricData = await response.json();
-        
+
         // 将数据转换为图表可用的格式
         const formattedData: ChartDataPoint[] = Object.entries(jsonData)
           .filter(([key]) => key.match(/^\d{4}(-\d{2})$/)) // 只保留年份和月份数据
@@ -107,16 +115,16 @@ function SearchContent() {
             [name]: typeof value === "number" ? value : 0,
           }))
           .sort((a, b) => a.date.localeCompare(b.date)); // 按日期排序
-        
+
         projectsData.push({
           name,
           data: jsonData,
-          chartData: formattedData
+          chartData: formattedData,
         });
       }
-      
+
       setProjects(projectsData);
-      
+
       // 合并所有项目的数据用于图表展示
       mergeChartData(projectsData);
     } catch (err) {
@@ -130,20 +138,24 @@ function SearchContent() {
   const mergeChartData = (projectsData: ProjectData[]) => {
     // 收集所有唯一的日期
     const allDates = Array.from(
-      new Set(projectsData.flatMap(project => 
-        project.chartData.map(item => item.date)
-      ))
+      new Set(
+        projectsData.flatMap((project) =>
+          project.chartData.map((item) => item.date)
+        )
+      )
     ).sort();
 
     // 为每个日期创建数据点，包含所有项目的数据
-    const mergedData: ChartDataPoint[] = allDates.map(date => {
+    const mergedData: ChartDataPoint[] = allDates.map((date) => {
       const dataPoint: ChartDataPoint = { date };
-      
-      projectsData.forEach(project => {
-        const projectData = project.chartData.find(item => item.date === date);
+
+      projectsData.forEach((project) => {
+        const projectData = project.chartData.find(
+          (item) => item.date === date
+        );
         dataPoint[project.name] = projectData ? projectData[project.name] : 0;
       });
-      
+
       return dataPoint;
     });
 
@@ -153,7 +165,7 @@ function SearchContent() {
   // 判断使用哪种图表类型
   const renderChart = () => {
     if (chartData.length === 0) return null;
-    
+
     // 获取项目名称列表用于图例和线条
     const projectNames = parseNames(names);
 
@@ -168,8 +180,20 @@ function SearchContent() {
             <Tooltip />
             <Legend />
             {projectNames.map((name, index) => {
-              const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#00ff00"];
-              return <Bar key={name} dataKey={name} fill={colors[index % colors.length]} />;
+              const colors = [
+                "#8884d8",
+                "#82ca9d",
+                "#ffc658",
+                "#ff7300",
+                "#00ff00",
+              ];
+              return (
+                <Bar
+                  key={name}
+                  dataKey={name}
+                  fill={colors[index % colors.length]}
+                />
+              );
             })}
           </BarChart>
         </ResponsiveContainer>
@@ -185,7 +209,13 @@ function SearchContent() {
           <Tooltip />
           <Legend />
           {projectNames.map((name, index) => {
-            const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#00ff00"];
+            const colors = [
+              "#8884d8",
+              "#82ca9d",
+              "#ffc658",
+              "#ff7300",
+              "#00ff00",
+            ];
             return (
               <Line
                 key={name}
@@ -225,9 +255,7 @@ function SearchContent() {
             {/* options */}
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 ">
-                <label className="block font-medium">
-                  Platform
-                </label>
+                <label className="block font-medium">Platform</label>
                 <Select value={platform} onValueChange={setPlatform}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select platform" />
@@ -284,12 +312,17 @@ function SearchContent() {
         <Card>
           <CardHeader>
             <CardTitle>
-              {metrics.find(m => m.value === metric)?.label || metric} Trend Comparison
+              <div className="flex items-center gap-2">
+                <div className="px-2 py-1 rounded-full text-sm border w-fit">
+                  {metrics.find((m) => m.value === metric)?.label || metric}{" "}
+                </div>
+                <div>Trend Comparison</div>
+              </div>
             </CardTitle>
           </CardHeader>
           <CardContent>
             {renderChart()}
-            
+
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {projects.map((project) => (
                 <Card key={project.name}>
@@ -298,11 +331,14 @@ function SearchContent() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-sm">
-                      <p>Last value: {
-                        project.chartData.length > 0 
-                          ? project.chartData[project.chartData.length - 1][project.name]
-                          : "N/A"
-                      }</p>
+                      <p>
+                        Last value:{" "}
+                        {project.chartData.length > 0
+                          ? project.chartData[project.chartData.length - 1][
+                              project.name
+                            ]
+                          : "N/A"}
+                      </p>
                       <p>Data points: {project.chartData.length}</p>
                     </div>
                   </CardContent>

@@ -1,6 +1,3 @@
-import { lazy } from "react";
-import { Label } from "recharts";
-
 export const base_url = "https://oss.open-digger.cn";
 
 export const metrics = [
@@ -18,7 +15,6 @@ export const metrics = [
   { label: "code_change_lines_add", value: "code_change_lines_add" },
   { label: "code_change_lines_remove", value: "code_change_lines_remove" },
   { label: "code_change_lines_sum", value: "code_change_lines_sum" },
-
 ];
 
 export const platforms = [
