@@ -1,11 +1,25 @@
-# TOR
-Trending With OpenRank (TOR), Github Trending show OpenRank score
+# GOR
+GitOpenRank (GOR), Github/Gitlab Trending show OpenRank score
 
 - @author: pangzhangdeng
 - @email: coshpr@163.com
 - @wechat: coshpr
 
 [[app-web-view]](https://openrank-2025.vercel.app/trending)(deploy in vecel)
+
+### Features
+Github Trending show OpenRank score
+
+![github_trending](public/github_trending.png)
+
+multi repos OpenRank score comparison
+
+![multi_repos_openrank_comparison](public/open_ranks.png)
+
+
+support multi metrics
+
+![multi_metrics](public/multi_metrics.png)
 
 ### TeckStack
 - Nextjs
