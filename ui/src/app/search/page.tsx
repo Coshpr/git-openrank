@@ -220,13 +220,6 @@ function SearchContent() {
           </CardHeader>
           <CardContent>
             {renderChart()}
-
-            {/* <div className="mt-8">
-              <h3 className="text-lg font-semibold mb-4">Raw Data</h3>
-              <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-96">
-                {JSON.stringify(data, null, 2)}
-              </pre>
-            </div> */}
           </CardContent>
         </Card>
       )}
