@@ -5,10 +5,12 @@ Trending With OpenRank (TOR), Github Trending show OpenRank score
 - @email: coshpr@163.com
 - @wechat: coshpr
 
+[[app-web-view]](https://openrank-2025.vercel.app/trending)(deploy in vecel)
+
 ### TeckStack
 - Nextjs
 - Tailwindcss
-- OpenDigger
+- OpenDigger(api)
 - Shacn-ui
 
 ### Comptition
@@ -17,4 +19,5 @@ Trending With OpenRank (TOR), Github Trending show OpenRank score
 
 ### Thanks
 - [OpenDigger](https://open-digger.cn/docs/user-docs/metrics/metrics-usage-guide)
-- [github-trending](https://github.com/doforce/github-trending?tab=readme-ov-file)
+- [Github-trending](https://github.com/doforce/github-trending?tab=readme-ov-file)
+- [Vercel](https://vercel.com/)
