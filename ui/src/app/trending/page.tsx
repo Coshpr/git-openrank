@@ -38,12 +38,13 @@ interface Repo {
 
 export default function TrendingPage() {
   const [languages, setLanguages] = useState<Language[]>([]);
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("unkonwn");
-  const [selectedSince, setSelectedSince] = useState<string>("daily"); // 添加since参数状态
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("unknown");
+  const [selectedSince, setSelectedSince] = useState<string>("daily");
   const [repos, setRepos] = useState<Repo[]>([]);
   const [isLanguageDialogOpen, setIsLanguageDialogOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); // 添加搜索状态
 
   // 获取支持的语言列表
   useEffect(() => {
@@ -98,11 +99,20 @@ export default function TrendingPage() {
   };
 
   const renderLanguageGrid = () => {
+    // 根据搜索词过滤语言列表
+    const filteredLanguages = searchTerm 
+      ? languages.filter(lang => 
+          lang.label.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : languages;
+      
     const itemsPerRow = 4;
     const rows = [];
+    // 限制只显示两行内容
+    const displayLanguages = filteredLanguages.slice(0, itemsPerRow*4);
 
-    for (let i = 0; i < languages.length; i += itemsPerRow) {
-      const rowItems = languages.slice(i, i + itemsPerRow);
+    for (let i = 0; i < displayLanguages.length; i += itemsPerRow) {
+      const rowItems = displayLanguages.slice(i, i + itemsPerRow);
       rows.push(
         <div key={i} className="grid grid-cols-4 gap-2 mb-2">
           {rowItems.map((language, index) => (
@@ -122,6 +132,19 @@ export default function TrendingPage() {
     return rows;
   };
 
+  // 渲染搜索框
+  const renderSearchBox = () => (
+    <div className="mb-4">
+      <input
+        type="text"
+        placeholder="Search languages..."
+        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black p-8">
       <div className="max-w-6xl mx-auto">
@@ -129,7 +152,7 @@ export default function TrendingPage() {
           GitHub Trending Repositories
         </h1>
 
-        {/* 添加时间范围选择 */}
+        {/* 添加时间范围选择和搜索框 */}
         <div className="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center space-x-2">
             <Label className="whitespace-nowrap">Time Range:</Label>
@@ -153,11 +176,12 @@ export default function TrendingPage() {
             </RadioGroup>
           </div>
 
-          <div>
-            <Dialog
-              open={isLanguageDialogOpen}
-              onOpenChange={setIsLanguageDialogOpen}
-            >
+   
+            <div>
+              <Dialog
+                open={isLanguageDialogOpen}
+                onOpenChange={setIsLanguageDialogOpen}
+              >
               <DialogTrigger asChild>
                 <Button variant="outline" className="text-xs" size="sm">
                   {selectedLanguage
@@ -171,6 +195,7 @@ export default function TrendingPage() {
                   <DialogTitle>Select a Language</DialogTitle>
                 </DialogHeader>
                 <div className="py-4">
+                  {renderSearchBox()}
                   {loading && languages.length === 0 ? (
                     <div className="flex justify-center items-center h-32">
                       <p>Loading languages...</p>
@@ -200,8 +225,18 @@ export default function TrendingPage() {
           </div>
         ) : repos.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {repos.map((repo, index) => (
-              <Card key={index} className="flex flex-col">
+            {repos
+              .filter((repo) => {
+                if (!searchTerm) return true;
+                const searchLower = searchTerm.toLowerCase();
+                return (
+                  repo.repo.toLowerCase().includes(searchLower) ||
+                  (repo.desc && repo.desc.toLowerCase().includes(searchLower)) ||
+                  repo.lang.toLowerCase().includes(searchLower)
+                );
+              })
+              .map((repo, index) => (
+                <Card key={index} className="flex flex-col">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
@@ -296,5 +331,6 @@ export default function TrendingPage() {
         )}
       </div>
     </div>
+        
   );
 }
