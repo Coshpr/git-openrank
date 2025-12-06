@@ -21,3 +21,4 @@ Trending With OpenRank (TOR), Github Trending show OpenRank score
 - [OpenDigger](https://open-digger.cn/docs/user-docs/metrics/metrics-usage-guide)
 - [Github-trending](https://github.com/doforce/github-trending?tab=readme-ov-file)
 - [Vercel](https://vercel.com/)
+- [realfavicongenerator](https://realfavicongenerator.net/logo-maker)

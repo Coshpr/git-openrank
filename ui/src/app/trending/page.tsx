@@ -296,7 +296,6 @@ export default function TrendingPage() {
                       ))}
                     </div>
                   </div>
-                  {/* 添加链接到search页面的按钮 */}
                   <div className="pt-2">
                     <Button
                       variant="outline"
@@ -306,7 +305,7 @@ export default function TrendingPage() {
                           ? repo.repo.substring(1)
                           : repo.repo;
                         window.open(
-                          `/search?name=${encodeURIComponent(
+                          `/openrank?names=${encodeURIComponent(
                             repoName
                           )}&platform=github`,
                           "_blank"
