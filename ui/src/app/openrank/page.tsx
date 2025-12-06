@@ -255,14 +255,14 @@ function SearchContent() {
             </div>
 
             {/* options */}
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col md:flex-row md:items-center gap-4">
               <div className="flex items-center gap-2 ">
                 <label className="block font-medium">Platform</label>
                 <Select value={platform} onValueChange={setPlatform}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select platform" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent >
                     {platforms.map((p) => (
                       <SelectItem key={p.value} value={p.value}>
                         {p.label}
@@ -288,7 +288,7 @@ function SearchContent() {
                 </Select>
               </div>
 
-              <div className="ml-auto">
+              <div className="ml-0 md:ml-auto">
                 <Button
                   onClick={handleSearch}
                   disabled={loading}
