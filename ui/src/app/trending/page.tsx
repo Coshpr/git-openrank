@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -204,13 +205,15 @@ export default function TrendingPage() {
                     <span className="text-xs text-zinc-500 dark:text-zinc-400 mr-2">Built by:</span>
                     <div className="flex">
                       {repo.build_by.slice(0, 5).map((contributor, idx) => (
-                        <img
-                          key={idx}
-                          src={contributor.avatar}
-                          alt={contributor.by}
-                          className="w-6 h-6 rounded-full -ml-2 border-2 border-white dark:border-zinc-900"
-                          style={{ marginLeft: idx === 0 ? 0 : -8 }}
-                        />
+                        <div key={idx} className="relative" style={{ marginLeft: idx === 0 ? 0 : -8 }}>
+                          <Image
+                            src={contributor.avatar}
+                            alt={contributor.by}
+                            width={24}
+                            height={24}
+                            className="rounded-full border-2 border-white dark:border-zinc-900"
+                          />
+                        </div>
                       ))}
                     </div>
                   </div>

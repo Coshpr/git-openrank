@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useQueryState, parseAsString } from 'nuqs';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,7 +34,8 @@ interface ChartDataPoint {
   value: number;
 }
 
-export default function SearchPage() {
+// 创建一个内部组件来处理需要 suspense 的 hooks
+function SearchContent() {
   const [platform, setPlatform] = useQueryState('platform', parseAsString.withDefault('github'));
   const [name, setName] = useQueryState('name', parseAsString.withDefault(''));
   const [metric, setMetric] = useQueryState('metric', parseAsString.withDefault('openrank'));
@@ -48,6 +49,8 @@ export default function SearchPage() {
     if (name && platform && metric) {
       handleSearch();
     }
+    // ignore warnings
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [platform, name, metric]);
 
   const handleSearch = async () => {
@@ -110,7 +113,7 @@ export default function SearchPage() {
         </ResponsiveContainer>
       );
     }
-    
+
     return (
       <ResponsiveContainer width="100%" height={400}>
         <LineChart data={chartData}>
@@ -130,100 +133,95 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-center">OpenDigger Metrics Search</h1>
-        
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Search Metrics</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 gap-4">
-              {/* Name input takes the full row */}
-              <div className="grid grid-cols-1 gap-4">
-                <Input
-                  placeholder="Enter org/repo or user login"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              
-              {/* Platform, metric and submit button on second row */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Select onValueChange={setPlatform} value={platform}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Platform" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="github">GitHub</SelectItem>
-                    <SelectItem value="gitee">Gitee</SelectItem>
-                  </SelectContent>
-                </Select>
-                
-                <Select onValueChange={setMetric} value={metric}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Metric" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="openrank">OpenRank</SelectItem>
-                    <SelectItem value="activity">Activity</SelectItem>
-                    <SelectItem value="stars">Stars</SelectItem>
-                    <SelectItem value="contributors">Contributors</SelectItem>
-                    <SelectItem value="issues_new">New Issues</SelectItem>
-                  </SelectContent>
-                </Select>
-                
-                <Button onClick={handleSearch} disabled={loading}>
-                  {loading ? "Searching..." : "Submit"}
-                </Button>
-              </div>
+    <div className="container mx-auto py-8">
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Search Open Source Project Metrics</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">Platform</label>
+              <Select value={platform} onValueChange={setPlatform}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select platform" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="github">GitHub</SelectItem>
+                  <SelectItem value="gitlab">GitLab</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
-            {error && (
-              <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
-                Error: {error}
-              </div>
-            )}
+            <div>
+              <label className="block text-sm font-medium mb-2">Project Name</label>
+              <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g., facebook/react"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium mb-2">Metric</label>
+              <Select value={metric} onValueChange={setMetric}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select metric" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="openrank">OpenRank</SelectItem>
+                  <SelectItem value="activity">Activity</SelectItem>
+                  <SelectItem value="attention">Attention</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="flex items-end">
+              <Button 
+                onClick={handleSearch} 
+                disabled={loading}
+                className="w-full"
+              >
+                {loading ? "Searching..." : "Search"}
+              </Button>
+            </div>
+          </div>
+          
+          {error && (
+            <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
+              {error}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {data && (
+        <Card>
+          <CardHeader>
+            <CardTitle>
+              {metric.toUpperCase()} Trend for {name} on {platform}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {renderChart()}
+            
+            <div className="mt-8">
+              <h3 className="text-lg font-semibold mb-4">Raw Data</h3>
+              <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-96">
+                {JSON.stringify(data, null, 2)}
+              </pre>
+            </div>
           </CardContent>
         </Card>
-        
-        <div className="space-y-8">
-          {data && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Visualization</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {chartData.length > 0 ? (
-                  <div className="h-96">
-                    {renderChart()}
-                  </div>
-                ) : (
-                  <div className="h-96 flex items-center justify-center">
-                    <p>No chart data available</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          )}
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Raw Data</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {data ? (
-                <pre className="bg-gray-100 p-4 rounded overflow-auto max-h-96">
-                  {JSON.stringify(data, null, 2)}
-                </pre>
-              ) : (
-                <p className="text-gray-500 italic">No data available. Enter search criteria and click Submit.</p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      )}
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchContent />
+    </Suspense>
   );
 }
