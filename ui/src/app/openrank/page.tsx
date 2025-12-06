@@ -50,7 +50,7 @@ function SearchContent() {
   );
   const [names, setNames] = useQueryState(
     "names",
-    parseAsString.withDefault("")
+    parseAsString.withDefault("facebook/react, vuejs/vue, angular/angular,vercel/next.js")
   );
   const [metric, setMetric] = useQueryState(
     "metric",
@@ -168,14 +168,10 @@ function SearchContent() {
     setChartData(mergedData);
   };
 
-  // 判断使用哪种图表类型
   const renderChart = () => {
     if (chartData.length === 0) return null;
-
-    // 获取项目名称列表用于图例和线条
     const projectNames = parseNames(names);
 
-    // 如果数据点少于2个，使用柱状图，否则使用折线图
     if (chartData.length < 2) {
       return (
         <ResponsiveContainer width="100%" height={400}>
