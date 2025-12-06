@@ -25,7 +25,7 @@ interface Repo {
 
 export default function TrendingPage() {
   const [languages, setLanguages] = useState<Language[]>([]);
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("python");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("unkonwn");
   const [selectedSince, setSelectedSince] = useState<string>("daily"); // 添加since参数状态
   const [repos, setRepos] = useState<Repo[]>([]);
   const [isLanguageDialogOpen, setIsLanguageDialogOpen] = useState(false);
@@ -111,7 +111,7 @@ export default function TrendingPage() {
         <h1 className="text-3xl font-bold mb-8 text-center">GitHub Trending Repositories</h1>
         
         {/* 添加时间范围选择 */}
-        <div className="mb-6 flex flex-col sm:flex-row justify-center items-center gap-4">
+        <div className="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center space-x-2">
             <Label className="whitespace-nowrap">Time Range:</Label>
             <RadioGroup value={selectedSince} onValueChange={setSelectedSince} className="flex space-x-4">
@@ -133,7 +133,7 @@ export default function TrendingPage() {
           <div>
             <Dialog open={isLanguageDialogOpen} onOpenChange={setIsLanguageDialogOpen} >
               <DialogTrigger asChild>
-                <Button variant="default" size="lg">
+                <Button variant="outline" className="text-xs" size="sm">
                   {selectedLanguage 
                     ? languages.find(lang => lang.key === selectedLanguage)?.label || "Select Language" 
                     : "Select Language"}

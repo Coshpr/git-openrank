@@ -14,6 +14,8 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    // 禁用图像优化以解决私有IP问题
+    unoptimized: true,
   },
 
   async headers() {
