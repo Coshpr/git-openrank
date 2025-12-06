@@ -65,7 +65,14 @@ function SearchContent() {
   const parseNames = (namesStr: string): string[] => {
     return namesStr
       .split(",")
-      .map((name) => name.trim())
+      .map((name) => {
+        // 自动去除 GitHub 链接前缀
+        const trimmedName = name.trim();
+        if (trimmedName.startsWith('https://github.com/')) {
+          return trimmedName.substring('https://github.com/'.length);
+        }
+        return trimmedName;
+      })
       .filter((name) => name.length > 0);
   };
 
@@ -74,7 +81,6 @@ function SearchContent() {
     if (names && platform && metric) {
       handleSearch();
     }
-    // ignore warnings
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [platform, names, metric]);
 
