@@ -1,27 +1,31 @@
 # GOR
-GitOpenRank (GOR), Github/Gitlab Trending show OpenRank score
+GitOpenRank (GOR), Github Trending show OpenRank score
 
 - @author: pangzhangdeng
 - @email: coshpr@163.com
 - @wechat: coshpr
 
-[[appview-1]](https://openrank-2025.vercel.app/trending)(deploy in vecel)
-
-[[appview-2]](https://git-openrank.netlify.app/trending)(deploy in netlify)
+### Preview
++ [[git-openrank.vercel.app]](git-openrank.vercel.app) (deploy in vecel)
++ [[git-openrank.netlify.app]](https://git-openrank.netlify.app/) (deploy in netlify)
 
 ### Features
-Github Trending show OpenRank score
+1. Github trending show OpenRank score
 
-![github_trending](public/github_trending.png)
+![github_trending](public/git-openrank-github-trending.png)
 
-multi repos OpenRank score comparison
+2. multi-repos openrank score comparison
 
-![multi_repos_openrank_comparison](public/open_ranks.png)
+![multi_repos_openrank_comparison](public/git-openrank-metrics.png)
 
+3. support multi-metrics
 
-support multi metrics
+![multi_metrics](public/git-openrank-select-multi-metrics.png)
 
-![multi_metrics](public/multi_metrics.png)
+4. open source projects openrank dashboard
+
+![git-openrank-openrank](public/git-openrank-openrank.png)
+
 
 ### TeckStack
 - Nextjs
@@ -37,4 +41,6 @@ support multi metrics
 - [OpenDigger](https://open-digger.cn/docs/user-docs/metrics/metrics-usage-guide)
 - [Github-trending](https://github.com/doforce/github-trending?tab=readme-ov-file)
 - [Vercel](https://vercel.com/)
+- [Netlify](https://www.netlify.com/)
 - [realfavicongenerator](https://realfavicongenerator.net/logo-maker)
+- [Tongyi Lingma](https://lingma.aliyun.com/lingma) (vscode plugin)
