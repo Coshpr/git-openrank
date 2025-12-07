@@ -19,5 +19,5 @@ export const metrics = [
 
 export const platforms = [
   { label: 'GitHub', value: 'github' },
-  { label: 'GitLab', value: 'gitlab' },
+  { label: 'Gitee', value: 'gitee' },
 ];
