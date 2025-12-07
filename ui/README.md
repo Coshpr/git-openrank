@@ -1,6 +1,6 @@
-### TOR
+### GOR
 
-Trending With OpenRank (TOR)
+GitOpenRank (GOR)
 
 ### RUN
 
