@@ -6,8 +6,8 @@ GitOpenRank (GOR), Github Trending show OpenRank score
 - @wechat: coshpr
 
 ### Preview
-+ [[git-openrank.vercel.app]](git-openrank.vercel.app) (deploy in vecel)
-+ [[git-openrank.netlify.app]](https://git-openrank.netlify.app/) (deploy in netlify)
++ [git-openrank.vercel.app](https://git-openrank.vercel.app/) (deploy in vecel)
++ [git-openrank.netlify.app](https://git-openrank.netlify.app/) (deploy in netlify)
 
 ### Features
 1. Github trending show OpenRank score
@@ -44,3 +44,4 @@ GitOpenRank (GOR), Github Trending show OpenRank score
 - [Netlify](https://www.netlify.com/)
 - [realfavicongenerator](https://realfavicongenerator.net/logo-maker)
 - [Tongyi Lingma](https://lingma.aliyun.com/lingma) (vscode plugin)
+- [openatom-dashboard](https://openatom-dashboard.x-lab.info/)
