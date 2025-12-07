@@ -5,7 +5,9 @@ GitOpenRank (GOR), Github/Gitlab Trending show OpenRank score
 - @email: coshpr@163.com
 - @wechat: coshpr
 
-[[app-web-view]](https://openrank-2025.vercel.app/trending)(deploy in vecel)
+[[appview-1]](https://openrank-2025.vercel.app/trending)(deploy in vecel)
+
+[[appview-2]](https://git-openrank.netlify.app/trending)(deploy in netlify)
 
 ### Features
 Github Trending show OpenRank score
