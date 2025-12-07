@@ -29,8 +29,6 @@ export default async function DashboardPage() {
       fetchData(getUrlByName('developers_list')),
     ]);
 
-  console.log(countryData, companyData, projectData, developerData);
-
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black p-8">
       <div className="max-w-6xl mx-auto ">
