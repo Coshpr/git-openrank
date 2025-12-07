@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -22,34 +22,39 @@ const nextConfig: NextConfig = {
     return [
       {
         // matching all API routes
-        source: "/api/:path*",
+        source: '/api/:path*',
         headers: [
-          { key: "Access-Control-Allow-Credentials", value: "true" },
-          { key: "Access-Control-Allow-Origin", value: "*" },
-          { key: "Access-Control-Allow-Methods", value: "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
-          { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" },
-        ]
+          { key: 'Access-Control-Allow-Credentials', value: 'true' },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value:
+              'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+          },
+        ],
       },
       {
         source: '/_next/:path*',
-        headers: [
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-        ]
-      }
-    ]
+        headers: [{ key: 'Access-Control-Allow-Origin', value: '*' }],
+      },
+    ];
   },
   async rewrites() {
     return [
       {
         source: '/api/trend/lang',
-        destination: 'https://trend.doforce.dpdns.org/lang'
+        destination: 'https://trend.doforce.dpdns.org/lang',
       },
       {
         source: '/api/trend/repo',
-        destination: 'https://trend.doforce.dpdns.org/repo'
-      }
-    ]
-  }
+        destination: 'https://trend.doforce.dpdns.org/repo',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

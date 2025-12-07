@@ -17,8 +17,32 @@
 /.next/
 /out/
 
+# Development server
+.next/dev
+
 # production
 /build
+
+# Environment files
+.env*
+!.env.example
+
+# IDE and editor files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.swp
+*.swo
+
+# Logs
+logs
+*.log
+
+# Temporary folders
+tmp/
+temp/
 
 # misc
 .DS_Store
@@ -39,3 +63,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Prettier
+.prettiercache

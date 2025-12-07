@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "GitOpenRank",
-  description: "GitOpenRank",
+  title: 'GitOpenRank',
+  description: 'GitOpenRank',
   icons: {
-    icon: "/GitR.svg",
+    icon: '/GitR.svg',
   },
 };
 
@@ -34,6 +34,9 @@ export default function RootLayout({
                 <div className="flex items-center space-x-4">
                   <Link href="/trending">
                     <Button variant="ghost">GithubTrending</Button>
+                  </Link>
+                  <Link href="/metrics">
+                    <Button variant="ghost">Metrics</Button>
                   </Link>
                   <Link href="/openrank">
                     <Button variant="ghost">OpenRank</Button>

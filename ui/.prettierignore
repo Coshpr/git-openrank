@@ -1,0 +1,22 @@
+# Build artifacts
+.next
+out
+build
+
+# Dependencies
+node_modules
+
+# Environment files
+.env*
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Log files
+*.log
+
+# Ignore all dotfiles except .eslintrc.js and .prettierrc
+.*
+!.eslintrc.js
+!.prettierrc

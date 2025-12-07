@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { ArrowUp, GitFork, Star } from "lucide-react";
+} from '@/components/ui/card';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { ArrowUp, GitFork, Star } from 'lucide-react';
 
 interface Language {
   label: string;
@@ -38,26 +38,26 @@ interface Repo {
 
 export default function TrendingPage() {
   const [languages, setLanguages] = useState<Language[]>([]);
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("unknown");
-  const [selectedSince, setSelectedSince] = useState<string>("daily");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('unknown');
+  const [selectedSince, setSelectedSince] = useState<string>('daily');
   const [repos, setRepos] = useState<Repo[]>([]);
   const [isLanguageDialogOpen, setIsLanguageDialogOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [searchTerm, setSearchTerm] = useState(""); // 添加搜索状态
+  const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); // 添加搜索状态
 
   // 获取支持的语言列表
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
-        const response = await fetch("/api/trend/lang");
+        const response = await fetch('/api/trend/lang');
         if (!response.ok) {
           throw new Error(`Failed to fetch languages: ${response.status}`);
         }
         const data: Language[] = await response.json();
         setLanguages(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
+        setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
         setLoading(false);
       }
@@ -84,7 +84,7 @@ export default function TrendingPage() {
         const data: Repo[] = await response.json();
         setRepos(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
+        setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
         setLoading(false);
       }
@@ -100,16 +100,16 @@ export default function TrendingPage() {
 
   const renderLanguageGrid = () => {
     // 根据搜索词过滤语言列表
-    const filteredLanguages = searchTerm 
-      ? languages.filter(lang => 
+    const filteredLanguages = searchTerm
+      ? languages.filter(lang =>
           lang.label.toLowerCase().includes(searchTerm.toLowerCase())
         )
       : languages;
-      
+
     const itemsPerRow = 4;
     const rows = [];
     // 限制只显示两行内容
-    const displayLanguages = filteredLanguages.slice(0, itemsPerRow*4);
+    const displayLanguages = filteredLanguages.slice(0, itemsPerRow * 4);
 
     for (let i = 0; i < displayLanguages.length; i += itemsPerRow) {
       const rowItems = displayLanguages.slice(i, i + itemsPerRow);
@@ -140,7 +140,7 @@ export default function TrendingPage() {
         placeholder="Search languages..."
         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={e => setSearchTerm(e.target.value)}
       />
     </div>
   );
@@ -176,18 +176,17 @@ export default function TrendingPage() {
             </RadioGroup>
           </div>
 
-   
-            <div>
-              <Dialog
-                open={isLanguageDialogOpen}
-                onOpenChange={setIsLanguageDialogOpen}
-              >
+          <div>
+            <Dialog
+              open={isLanguageDialogOpen}
+              onOpenChange={setIsLanguageDialogOpen}
+            >
               <DialogTrigger asChild>
                 <Button variant="outline" className="text-xs" size="sm">
                   {selectedLanguage
-                    ? languages.find((lang) => lang.key === selectedLanguage)
-                        ?.label || "Select Language"
-                    : "Select Language"}
+                    ? languages.find(lang => lang.key === selectedLanguage)
+                        ?.label || 'Select Language'
+                    : 'Select Language'}
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[600px] max-w-[90vw] w-[600px] max-h-[80vh] overflow-y-auto">
@@ -226,98 +225,99 @@ export default function TrendingPage() {
         ) : repos.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {repos
-              .filter((repo) => {
+              .filter(repo => {
                 if (!searchTerm) return true;
                 const searchLower = searchTerm.toLowerCase();
                 return (
                   repo.repo.toLowerCase().includes(searchLower) ||
-                  (repo.desc && repo.desc.toLowerCase().includes(searchLower)) ||
+                  (repo.desc &&
+                    repo.desc.toLowerCase().includes(searchLower)) ||
                   repo.lang.toLowerCase().includes(searchLower)
                 );
               })
               .map((repo, index) => (
                 <Card key={index} className="flex flex-col">
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <CardTitle className="text-lg">
-                        <a
-                          href={`https://github.com${repo.repo}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:underline"
-                        >
-                          {repo.repo.split("/")[2] || repo.repo.substring(1)}
-                        </a>
-                      </CardTitle>
-                      <CardDescription className="mt-2">
-                        {repo.desc}
-                      </CardDescription>
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-lg">
+                          <a
+                            href={`https://github.com${repo.repo}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline"
+                          >
+                            {repo.repo.split('/')[2] || repo.repo.substring(1)}
+                          </a>
+                        </CardTitle>
+                        <CardDescription className="mt-2">
+                          {repo.desc}
+                        </CardDescription>
+                      </div>
+                      <span className="bg-zinc-100 dark:bg-zinc-800 text-xs px-2 py-1 rounded">
+                        {repo.lang}
+                      </span>
                     </div>
-                    <span className="bg-zinc-100 dark:bg-zinc-800 text-xs px-2 py-1 rounded">
-                      {repo.lang}
-                    </span>
-                  </div>
-                </CardHeader>
-                <CardContent className="mt-auto">
-                  <div className="flex justify-between text-sm text-zinc-500 dark:text-zinc-400 mb-4">
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 text-amber-500"></Star>
-                      {repo.stars.toLocaleString()}
+                  </CardHeader>
+                  <CardContent className="mt-auto">
+                    <div className="flex justify-between text-sm text-zinc-500 dark:text-zinc-400 mb-4">
+                      <div className="flex items-center gap-1">
+                        <Star className="h-4 w-4 text-amber-500"></Star>
+                        {repo.stars.toLocaleString()}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <GitFork className="h-4 w-4" />{' '}
+                        {repo.forks.toLocaleString()}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <ArrowUp className="h-4 w-4 text-red-500" />{' '}
+                        {repo.change > 0 ? `${repo.change}` : repo.change}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <GitFork className="h-4 w-4" />{" "}
-                      {repo.forks.toLocaleString()}
+                    <div className="flex items-center mb-4">
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400 mr-2">
+                        Built by:
+                      </span>
+                      <div className="flex">
+                        {repo.build_by.slice(0, 5).map((contributor, idx) => (
+                          <div
+                            key={idx}
+                            className="relative"
+                            style={{ marginLeft: idx === 0 ? 0 : -8 }}
+                          >
+                            <Image
+                              src={contributor.avatar}
+                              alt={contributor.by}
+                              width={24}
+                              height={24}
+                              className="rounded-full border-2 border-white dark:border-zinc-900"
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <ArrowUp className="h-4 w-4 text-red-500" />{" "}
-                      {repo.change > 0 ? `${repo.change}` : repo.change}
+                    <div className="pt-2">
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => {
+                          const repoName = repo.repo.startsWith('/')
+                            ? repo.repo.substring(1)
+                            : repo.repo;
+                          window.open(
+                            `/metrics?names=${encodeURIComponent(
+                              repoName
+                            )}&platform=github`,
+                            '_blank'
+                          );
+                        }}
+                      >
+                        View OpenRank
+                      </Button>
                     </div>
-                  </div>
-                  <div className="flex items-center mb-4">
-                    <span className="text-xs text-zinc-500 dark:text-zinc-400 mr-2">
-                      Built by:
-                    </span>
-                    <div className="flex">
-                      {repo.build_by.slice(0, 5).map((contributor, idx) => (
-                        <div
-                          key={idx}
-                          className="relative"
-                          style={{ marginLeft: idx === 0 ? 0 : -8 }}
-                        >
-                          <Image
-                            src={contributor.avatar}
-                            alt={contributor.by}
-                            width={24}
-                            height={24}
-                            className="rounded-full border-2 border-white dark:border-zinc-900"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="pt-2">
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => {
-                        const repoName = repo.repo.startsWith("/")
-                          ? repo.repo.substring(1)
-                          : repo.repo;
-                        window.open(
-                          `/openrank?names=${encodeURIComponent(
-                            repoName
-                          )}&platform=github`,
-                          "_blank"
-                        );
-                      }}
-                    >
-                      View OpenRank
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              ))}
           </div>
         ) : selectedLanguage ? (
           <div className="text-center py-12">
@@ -330,6 +330,5 @@ export default function TrendingPage() {
         )}
       </div>
     </div>
-        
   );
 }
