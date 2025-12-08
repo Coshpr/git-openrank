@@ -20,6 +20,7 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { ArrowUp, GitFork, Star } from 'lucide-react';
+import RepoMetrics from './repo-metric';
 
 interface Language {
   label: string;
@@ -296,6 +297,23 @@ export default function TrendingPage() {
                         ))}
                       </div>
                     </div>
+
+                    {/* show openrank score， ref metrics openrank */}
+                    <RepoMetrics
+                      repo={
+                        repo.repo.startsWith('/')
+                          ? repo.repo.substring(1)
+                          : repo.repo
+                      }
+                      metrics={['openrank']}
+                      platform="github"
+                      figType="area"
+                      height={200}
+                      // showTooltip={false}
+                      showYAxis={false}
+                      showGrid={false}
+                      // showLegend={false}
+                    />
                     <div className="pt-2">
                       <Button
                         variant="outline"
@@ -312,7 +330,7 @@ export default function TrendingPage() {
                           );
                         }}
                       >
-                        View OpenRank
+                        More Metrics
                       </Button>
                     </div>
                   </CardContent>
