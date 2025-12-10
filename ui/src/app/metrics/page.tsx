@@ -34,7 +34,7 @@ function SearchContent() {
   );
 
   return (
-    <div className="container mx-auto py-8 max-w-6xl">
+    <div className="container mx-auto py-8 max-w-6xl ">
       <div className="flex flex-col gap-4 text-sm mb-8">
         <div className="flex flex-col md:flex-row md:items-center gap-4">
           <div className="flex items-center flex-1">
@@ -137,7 +137,9 @@ function SearchContent() {
 export default function SearchPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <SearchContent />
+      <div className="bg-zinc-50 dark:bg-black">
+        <SearchContent />
+      </div>
     </Suspense>
   );
 }
