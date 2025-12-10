@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   // 配置允许的开发环境源地址，消除跨源请求警告
   allowedDevOrigins: ['http://localhost:3000', 'http://192.168.199.117:3000'],
 
+  output: 'standalone',
+
   images: {
     remotePatterns: [
       {
