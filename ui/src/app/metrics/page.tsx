@@ -24,7 +24,7 @@ import {
   Bar,
   Legend,
 } from 'recharts';
-import { base_url, metrics, platforms } from './metrics';
+import { base_url, metrics, platforms } from '../../lib/constants';
 
 // 定义数据类型
 interface MetricData {
@@ -48,8 +48,8 @@ function SearchContent() {
     'platform',
     parseAsString.withDefault('github')
   );
-  const [names, setNames] = useQueryState(
-    'names',
+  const [repos, setRepos] = useQueryState(
+    'repos',
     parseAsString.withDefault(
       'facebook/react, vuejs/vue, angular/angular,vercel/next.js'
     )
@@ -58,21 +58,28 @@ function SearchContent() {
     'metric',
     parseAsString.withDefault('openrank')
   );
+
   const [projects, setProjects] = useState<ProjectData[]>([]);
   const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   // 解析项目名称列表
-  const parseNames = (namesStr: string): string[] => {
-    return namesStr
+  const repoStrToList = (repoStr: string): string[] => {
+    return repoStr
       .split(',')
       .map(name => {
-        // 自动去除 GitHub 链接前缀
+        // auto remove github prefix
         const trimmedName = name.trim();
         if (trimmedName.startsWith('https://github.com/')) {
           return trimmedName.substring('https://github.com/'.length);
         }
+
+        // remove gitee prefix
+        if (trimmedName.startsWith('https://gitee.com/')) {
+          return trimmedName.substring('https://gitee.com/'.length);
+        }
+
         return trimmedName;
       })
       .filter(name => name.length > 0);
@@ -80,15 +87,15 @@ function SearchContent() {
 
   // 当URL参数变化时自动触发搜索
   useEffect(() => {
-    if (names && platform && metric) {
+    if (repos && platform && metric) {
       handleSearch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [platform, names, metric]);
+  }, [platform, repos, metric]);
 
   const handleSearch = async () => {
-    const nameList = parseNames(names);
-    if (!platform || nameList.length === 0 || !metric) {
+    const repoList = repoStrToList(repos);
+    if (!platform || repoList.length === 0 || !metric) {
       setError('Please fill in all fields');
       return;
     }
@@ -102,14 +109,14 @@ function SearchContent() {
       // 获取所有项目的数据
       const projectsData: ProjectData[] = [];
 
-      for (const name of nameList) {
+      for (const repo of repoList) {
         // 根据OpenDigger文档，API地址格式为: https://oss.open-digger.cn/{platform}/{org/login}/{repo}/{metric}.json
-        const url = `${base_url}/${platform}/${name}/${metric}.json`;
+        const url = `${base_url}/${platform}/${repo}/${metric}.json`;
         const response = await fetch(url);
 
         if (!response.ok) {
           throw new Error(
-            `Failed to fetch data for ${name}: ${response.status}`
+            `Failed to fetch data for ${repo}: ${response.status}`
           );
         }
 
@@ -120,12 +127,12 @@ function SearchContent() {
           .filter(([key]) => key.match(/^\d{4}(-\d{2})$/)) // 只保留年份和月份数据
           .map(([date, value]) => ({
             date,
-            [name]: typeof value === 'number' ? value : 0,
+            [repo]: typeof value === 'number' ? value : 0,
           }))
           .sort((a, b) => a.date.localeCompare(b.date)); // 按日期排序
 
         projectsData.push({
-          name,
+          name: repo,
           data: jsonData,
           chartData: formattedData,
         });
@@ -170,7 +177,7 @@ function SearchContent() {
 
   const renderChart = () => {
     if (chartData.length === 0) return null;
-    const projectNames = parseNames(names);
+    const projectNames = repoStrToList(repos);
 
     if (chartData.length < 2) {
       return (
@@ -248,8 +255,8 @@ function SearchContent() {
                 Project Names (comma separated)
               </label>
               <Input
-                value={names}
-                onChange={e => setNames(e.target.value)}
+                value={repos}
+                onChange={e => setRepos(e.target.value)}
                 placeholder="e.g., facebook/react, vuejs/vue, angular/angular"
               />
             </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { base_url } from '../metrics/metrics';
+import { base_url, default_colors } from '@/lib/constants';
 import {
   LineChart,
   Line,
@@ -15,7 +15,7 @@ import {
   Legend,
 } from 'recharts';
 
-interface MetricProps {
+interface RepoMetricProps {
   repo: string;
   metrics: string[];
   platform: string;
@@ -56,7 +56,7 @@ export default function RepoMetrics({
   showTooltip = true,
   showXAxis = true,
   showYAxis = true,
-}: MetricProps) {
+}: RepoMetricProps) {
   const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -147,9 +147,6 @@ export default function RepoMetrics({
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  // 定义颜色数组
-  const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#00ff00'];
-
   // 渲染不同类型的图表
   const renderChart = () => {
     switch (figType) {
@@ -165,7 +162,7 @@ export default function RepoMetrics({
               <Bar
                 key={metric}
                 dataKey={metric}
-                fill={colors[index % colors.length]}
+                fill={default_colors[index % default_colors.length]}
               />
             ))}
           </BarChart>
@@ -184,8 +181,8 @@ export default function RepoMetrics({
                 key={metric}
                 type="monotone"
                 dataKey={metric}
-                stroke={colors[index % colors.length]}
-                fill={colors[index % colors.length]}
+                stroke={default_colors[index % default_colors.length]}
+                fill={default_colors[index % default_colors.length]}
                 fillOpacity={0.3}
               />
             ))}
@@ -206,7 +203,7 @@ export default function RepoMetrics({
                 key={metric}
                 type="monotone"
                 dataKey={metric}
-                stroke={colors[index % colors.length]}
+                stroke={default_colors[index % default_colors.length]}
                 activeDot={{ r: 4 }}
                 strokeWidth={2}
               />

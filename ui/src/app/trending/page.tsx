@@ -20,7 +20,7 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { ArrowUp, GitFork, Star } from 'lucide-react';
-import RepoMetrics from './repo-metric';
+import RepoMetrics from '@/components/repo-metric';
 
 interface Language {
   label: string;

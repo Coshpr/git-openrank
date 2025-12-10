@@ -21,3 +21,11 @@ export const platforms = [
   { label: 'GitHub', value: 'github' },
   { label: 'Gitee', value: 'gitee' },
 ];
+
+export const default_colors = [
+  '#8884d8',
+  '#82ca9d',
+  '#ffc658',
+  '#ff7300',
+  '#00ff00',
+];
