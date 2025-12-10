@@ -5,7 +5,7 @@ import {
   ChartDataPoint,
   ProjectData,
   UseRepoMetricsResult,
-} from '../types/metric';
+} from '@/types/metricType';
 
 /**
  * Custom hook for fetching and processing repository metrics data
@@ -66,9 +66,7 @@ export default function useRepoMetrics(
           const response = await fetch(url);
 
           if (!response.ok) {
-            throw new Error(
-              `Failed to fetch data for ${repo} - ${metric}: ${response.status}`
-            );
+            throw new Error(`No ${metric} data for ${repo}`);
           }
 
           const jsonData: MetricData = await response.json();

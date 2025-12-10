@@ -5,7 +5,7 @@ import {
   ChartDataPoint,
   ProjectData,
   UseMultiRepoMetricsResult,
-} from '../types/metric';
+} from '../types/metricType';
 
 /**
  * Custom hook for fetching and processing multi-repository metric data

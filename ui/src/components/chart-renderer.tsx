@@ -14,7 +14,7 @@ import {
   Legend,
 } from 'recharts';
 import { COLORS } from '@/lib/constants';
-import { SharedChartRendererProps } from '../types/metric';
+import { SharedChartRendererProps } from '../types/metricType';
 
 /**
  * Shared chart renderer component that can render different types of charts

@@ -153,7 +153,6 @@ export default function TrendingPage() {
           GitHub Trending Repositories
         </h1>
 
-        {/* 添加时间范围选择和搜索框 */}
         <div className="mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center space-x-2">
             <Label className="whitespace-nowrap">Time Range:</Label>
@@ -309,10 +308,8 @@ export default function TrendingPage() {
                       platform="github"
                       figType="area"
                       height={200}
-                      // showTooltip={false}
                       showYAxis={false}
                       showGrid={false}
-                      // showLegend={false}
                     />
                     <div className="pt-2">
                       <Button

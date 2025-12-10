@@ -1,6 +1,6 @@
 import useMultiRepoMetrics from '../hooks/use-multi-repo-metrics';
-import SharedChartRenderer from './shared-chart-renderer';
-import { MultiRepoMetricsProps } from '../types/metric';
+import SharedChartRenderer from './chart-renderer';
+import { MultiRepoMetricsProps } from '../types/metricType';
 
 /**
  * MultiRepoMetrics component displays metrics for multiple repositories

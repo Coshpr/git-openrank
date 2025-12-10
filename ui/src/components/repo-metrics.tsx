@@ -1,7 +1,7 @@
 import React from 'react';
 import useRepoMetrics from '../hooks/use-repo-metrics';
-import SharedChartRenderer from './shared-chart-renderer';
-import { RepoMetricsProps } from '../types/metric';
+import SharedChartRenderer from './chart-renderer';
+import { RepoMetricsProps } from '@/types/metricType';
 
 /**
  * RepoMetrics component displays multiple metrics for a single repository
@@ -29,7 +29,11 @@ export default function RepoMetrics({
 
   // Show error state
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="md:h-36 p-4 mb-14 bg-[#8884d8]/10 rounded-2xl ">
+        <div className=""> Error: {error}</div>
+      </div>
+    );
   }
 
   // Render the chart using the shared component
