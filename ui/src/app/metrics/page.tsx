@@ -24,7 +24,8 @@ import {
   Bar,
   Legend,
 } from 'recharts';
-import { base_url, metrics, platforms } from '../../lib/constants';
+import { BASE_URL, METRICS, PLATFORMS } from '../../lib/constants';
+import { repoStrToList } from '@/lib/utils';
 
 // 定义数据类型
 interface MetricData {
@@ -64,27 +65,6 @@ function SearchContent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // 解析项目名称列表
-  const repoStrToList = (repoStr: string): string[] => {
-    return repoStr
-      .split(',')
-      .map(name => {
-        // auto remove github prefix
-        const trimmedName = name.trim();
-        if (trimmedName.startsWith('https://github.com/')) {
-          return trimmedName.substring('https://github.com/'.length);
-        }
-
-        // remove gitee prefix
-        if (trimmedName.startsWith('https://gitee.com/')) {
-          return trimmedName.substring('https://gitee.com/'.length);
-        }
-
-        return trimmedName;
-      })
-      .filter(name => name.length > 0);
-  };
-
   // 当URL参数变化时自动触发搜索
   useEffect(() => {
     if (repos && platform && metric) {
@@ -111,7 +91,7 @@ function SearchContent() {
 
       for (const repo of repoList) {
         // 根据OpenDigger文档，API地址格式为: https://oss.open-digger.cn/{platform}/{org/login}/{repo}/{metric}.json
-        const url = `${base_url}/${platform}/${repo}/${metric}.json`;
+        const url = `${BASE_URL}/${platform}/${repo}/${metric}.json`;
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -270,7 +250,7 @@ function SearchContent() {
                     <SelectValue placeholder="Select platform" />
                   </SelectTrigger>
                   <SelectContent>
-                    {platforms.map(p => (
+                    {PLATFORMS.map(p => (
                       <SelectItem key={p.value} value={p.value}>
                         {p.label}
                       </SelectItem>
@@ -286,7 +266,7 @@ function SearchContent() {
                     <SelectValue placeholder="Select metric" />
                   </SelectTrigger>
                   <SelectContent>
-                    {metrics.map(m => (
+                    {METRICS.map(m => (
                       <SelectItem key={m.value} value={m.value}>
                         {m.label}
                       </SelectItem>
@@ -323,7 +303,7 @@ function SearchContent() {
             <CardTitle>
               <div className="flex items-center gap-2">
                 <div className="px-2 py-1 rounded-full text-sm border w-fit">
-                  {metrics.find(m => m.value === metric)?.label || metric}{' '}
+                  {METRICS.find(m => m.value === metric)?.label || metric}{' '}
                 </div>
                 <div>Trend Comparison</div>
               </div>

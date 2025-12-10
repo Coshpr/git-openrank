@@ -1,14 +1,15 @@
-import useMultiRepoMetrics from '../hooks/use-multi-repo-metrics';
+import React from 'react';
+import useRepoMetrics from '../hooks/use-repo-metrics';
 import SharedChartRenderer from './shared-chart-renderer';
-import { MultiRepoMetricsProps } from '../types/metric';
+import { RepoMetricsProps } from '../types/metric';
 
 /**
- * MultiRepoMetrics component displays metrics for multiple repositories
+ * RepoMetrics component displays multiple metrics for a single repository
  * Uses a custom hook for data fetching and a shared component for rendering
  */
-export default function MultiRepoMetrics({
-  repos,
-  metric,
+export default function RepoMetrics({
+  repo,
+  metrics,
   platform = 'github',
   figType = 'line',
   width = '100%',
@@ -18,12 +19,8 @@ export default function MultiRepoMetrics({
   showTooltip = true,
   showXAxis = true,
   showYAxis = true,
-}: MultiRepoMetricsProps) {
-  const { chartData, loading, error } = useMultiRepoMetrics(
-    repos,
-    metric,
-    platform
-  );
+}: RepoMetricsProps) {
+  const { chartData, loading, error } = useRepoMetrics(repo, metrics, platform);
 
   // Show loading state
   if (loading) {
@@ -39,7 +36,7 @@ export default function MultiRepoMetrics({
   return (
     <SharedChartRenderer
       chartData={chartData}
-      keys={repos}
+      keys={metrics}
       figType={figType}
       showGrid={showGrid}
       showLegend={showLegend}

@@ -20,7 +20,7 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { ArrowUp, GitFork, Star } from 'lucide-react';
-import RepoMetrics from '@/components/repo-metric';
+import RepoMetrics from '@/components/repo-metrics';
 
 interface Language {
   label: string;
@@ -323,7 +323,7 @@ export default function TrendingPage() {
                             ? repo.repo.substring(1)
                             : repo.repo;
                           window.open(
-                            `/metrics?names=${encodeURIComponent(
+                            `/metrics?repos=${encodeURIComponent(
                               repoName
                             )}&platform=github`,
                             '_blank'

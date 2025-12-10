@@ -1,6 +1,6 @@
-export const base_url = 'https://oss.open-digger.cn';
+export const BASE_URL = 'https://oss.open-digger.cn';
 
-export const metrics = [
+export const METRICS = [
   { label: 'OpenRank', value: 'openrank' },
   { label: 'Activity', value: 'activity' },
   { label: 'Attention', value: 'attention' },
@@ -17,15 +17,9 @@ export const metrics = [
   { label: 'code_change_lines_sum', value: 'code_change_lines_sum' },
 ];
 
-export const platforms = [
+export const PLATFORMS = [
   { label: 'GitHub', value: 'github' },
   { label: 'Gitee', value: 'gitee' },
 ];
 
-export const default_colors = [
-  '#8884d8',
-  '#82ca9d',
-  '#ffc658',
-  '#ff7300',
-  '#00ff00',
-];
+export const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#00ff00'];
