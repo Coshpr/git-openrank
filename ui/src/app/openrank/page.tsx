@@ -2,8 +2,9 @@ import CountryRanking from './components/CountryRanking';
 import CompanyRanking from './components/CompanyRanking';
 import ProjectRanking from './components/ProjectRanking';
 import DeveloperRanking from './components/DeveloperRanking';
-import RankingCard from './components/RankingCard';
+import SvgDocumentation from '../embed/SvgDocumentation';
 import { openatom_metrics } from './metric';
+import RankingCard from './components/RankingCard';
 
 export default async function DashboardPage() {
   const fetchData = async (url: string) => {
@@ -34,7 +35,7 @@ export default async function DashboardPage() {
       <div className="max-w-6xl mx-auto ">
         <h1 className="text-3xl font-bold mb-8 text-center">OpenSource Rank</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <RankingCard title="Global Open Source Developer Ranking">
             <CountryRanking data={countryData} />
           </RankingCard>
@@ -47,6 +48,12 @@ export default async function DashboardPage() {
 
           <RankingCard title="Global Open Source Developer Ranking">
             <DeveloperRanking data={developerData} />
+          </RankingCard>
+        </div>
+
+        <div className="mt-8">
+          <RankingCard title="SVG Chart Generator">
+            <SvgDocumentation />
           </RankingCard>
         </div>
       </div>
