@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -23,7 +23,8 @@ const SvgDocumentation = () => {
   const [height, setHeight] = useState('300');
   const [copied, setCopied] = useState(false);
 
-  const buildSvgUrl = () => {
+  // 使用 useMemo 优化 SVG URL 的生成
+  const svgUrl = useMemo(() => {
     const params = new URLSearchParams({
       repo,
       metric,
@@ -33,9 +34,7 @@ const SvgDocumentation = () => {
     });
     const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
     return `${baseUrl}/api/svg?${params.toString()}`;
-  };
-
-  const svgUrl = buildSvgUrl();
+  }, [repo, metric, platform, width, height]);
 
   // 替代方案复制函数
   const fallbackCopyTextToClipboard = (text: string) => {
@@ -100,8 +99,8 @@ const SvgDocumentation = () => {
         Markdown or HTML.
       </p>
 
-      <div className="flex gap-6 mb-6">
-        <div className="flex-1">
+      <div className="flex flex-wrap gap-6 mb-6">
+        <div className="flex-1 min-w-[200px]">
           <label className="block text-sm font-medium mb-2">Repository</label>
           <Input
             value={repo}
@@ -110,7 +109,7 @@ const SvgDocumentation = () => {
           />
         </div>
 
-        <div>
+        <div className="min-w-[150px]">
           <label className="block text-sm font-medium mb-2">Platform</label>
           <Select value={platform} onValueChange={setPlatform}>
             <SelectTrigger>
@@ -126,7 +125,7 @@ const SvgDocumentation = () => {
           </Select>
         </div>
 
-        <div>
+        <div className="min-w-[150px]">
           <label className="block text-sm font-medium mb-2">Metric</label>
           <Select value={metric} onValueChange={setMetric}>
             <SelectTrigger>
@@ -166,14 +165,14 @@ const SvgDocumentation = () => {
         </Button>
       </div>
 
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center mb-6">
         <Image
           src={svgUrl}
           alt="SVG Chart Preview"
           width={parseInt(width)}
           height={parseInt(height)}
           unoptimized={true}
-          className="max-w-full"
+          className="max-w-full border rounded-lg shadow-sm"
         />
       </div>
 
