@@ -1,26 +1,37 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { base_url } from '@/lib/constants';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const repoStrToList = (repoStr: string): string[] => {
-  return repoStr
+export function repoStrToList(str: string): string[] {
+  return str
     .split(',')
-    .map(name => {
-      // auto remove github prefix
-      const trimmedName = name.trim();
-      if (trimmedName.startsWith('https://github.com/')) {
-        return trimmedName.substring('https://github.com/'.length);
-      }
+    .map(item => item.trim())
+    .filter(Boolean);
+}
 
-      // remove gitee prefix
-      if (trimmedName.startsWith('https://gitee.com/')) {
-        return trimmedName.substring('https://gitee.com/'.length);
-      }
+export async function fetchRepoMetric(
+  repo: string,
+  metric: string,
+  platform: string
+): Promise<Record<string, number>> {
+  // Construct the API URL
+  const url = `${base_url}${platform}/${repo}/${metric}.json`;
 
-      return trimmedName;
-    })
-    .filter(name => name.length > 0);
-};
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch data: ${response.status} ${response.statusText}`
+      );
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Error fetching data for ${repo} ${metric}:`, error);
+    throw error;
+  }
+}

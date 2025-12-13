@@ -1,4 +1,5 @@
 export const BASE_URL = 'https://oss.open-digger.cn';
+export const base_url = 'https://oss.open-digger.cn/';
 
 export const METRICS = [
   { label: 'OpenRank', value: 'openrank' },
@@ -23,3 +24,5 @@ export const PLATFORMS = [
 ];
 
 export const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#00ff00'];
+
+export const DOMAIN = 'https://git-openrank.netlify.app/';

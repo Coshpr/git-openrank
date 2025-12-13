@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { GitBranch, UserRound } from 'lucide-react';
+import { Toaster } from '@/components/ui/sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <meta name="gitrank" content="GoR" />
       <body className={inter.className}>
+        <Toaster position="top-center" />
         <NuqsAdapter>
           <nav className="border-b bg-white dark:bg-black">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -33,6 +35,9 @@ export default function RootLayout({
                   <div className="text-xl font-bold">GitOpenRank</div>
                 </div>
                 <div className="flex items-center space-x-4">
+                  <Link href="/embed">
+                    <Button variant="ghost">Openrank-history</Button>
+                  </Link>
                   <Link href="/trending">
                     <Button variant="ghost">GithubTrending</Button>
                   </Link>
