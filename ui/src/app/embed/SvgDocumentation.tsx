@@ -16,7 +16,7 @@ import { CopyIcon, EyeIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 const SvgDocumentation = () => {
-  const [repo, setRepo] = useState('facebook/react');
+  const [repo, setRepo] = useState('');
   const [metric, setMetric] = useState('openrank');
   const [platform, setPlatform] = useState('github');
   const [width, setWidth] = useState('600');
@@ -142,67 +142,76 @@ const SvgDocumentation = () => {
         </div>
       </div>
 
-      <div className="mb-6 flex gap-4 justify-start">
-        <Button className="" size="sm" onClick={handleCopy} variant="outline">
-          <CopyIcon size="8" />
-          {copied ? 'Copied!' : 'Link'}
-        </Button>
+      {repo != '' && (
+        <>
+          <div className="mb-6 flex gap-4 justify-start">
+            <Button
+              className=""
+              size="sm"
+              onClick={handleCopy}
+              variant="outline"
+            >
+              <CopyIcon size="8" />
+              {copied ? 'Copied!' : 'Link'}
+            </Button>
 
-        <Button
-          className=""
-          size="sm"
-          onClick={() => {
-            // 确保只在浏览器环境中执行
-            if (typeof window !== 'undefined') {
-              // 使用带属性的 window.open 确保窗口能够正确打开
-              window.open(svgUrl, '_blank', 'noopener,noreferrer');
-            }
-          }}
-          variant="outline"
-        >
-          <EyeIcon size="8" />
-          Preview
-        </Button>
-      </div>
+            <Button
+              className=""
+              size="sm"
+              onClick={() => {
+                // 确保只在浏览器环境中执行
+                if (typeof window !== 'undefined') {
+                  // 使用带属性的 window.open 确保窗口能够正确打开
+                  window.open(svgUrl, '_blank', 'noopener,noreferrer');
+                }
+              }}
+              variant="outline"
+            >
+              <EyeIcon size="8" />
+              Preview
+            </Button>
+          </div>
 
-      <div className="flex justify-center items-center mb-6">
-        <Image
-          src={svgUrl}
-          alt="SVG Chart Preview"
-          width={parseInt(width)}
-          height={parseInt(height)}
-          unoptimized={true}
-          className="max-w-full border rounded-lg shadow-sm"
-        />
-      </div>
+          <div className="flex justify-center items-center mb-6">
+            <Image
+              src={svgUrl}
+              alt="SVG Chart Preview"
+              width={parseInt(width)}
+              height={parseInt(height)}
+              unoptimized={true}
+              className="max-w-full border rounded-lg shadow-sm"
+            />
+          </div>
 
-      <div>
-        <div className=" text-sm font-medium mb-2 flex gap-1 items-center">
-          <div>Markdown Usage</div>
-          <Button
-            className="ml-2"
-            size="icon"
-            variant="link"
-            onClick={async () => {
-              const markdownCode = `![${metric} for ${repo}](${svgUrl})`;
-              const successful = await copyTextToClipboard(markdownCode);
+          <div>
+            <div className=" text-sm font-medium mb-2 flex gap-1 items-center">
+              <div>Markdown Usage</div>
+              <Button
+                className="ml-2"
+                size="icon"
+                variant="link"
+                onClick={async () => {
+                  const markdownCode = `![${metric} for ${repo}](${svgUrl})`;
+                  const successful = await copyTextToClipboard(markdownCode);
 
-              if (successful) {
-                toast.success('Markdown code copied to clipboard!');
-              } else {
-                toast.error('Failed to copy Markdown code to clipboard');
-              }
-            }}
-          >
-            <CopyIcon size="8" />
-          </Button>
-        </div>
-        <div className="p-6 bg-gray-100 border rounded-md">{`![${metric} for ${repo}](${svgUrl})`}</div>
-        <p className="mt-2 text-sm text-gray-500">
-          Copy and paste this Markdown code to embed the chart in your
-          documents.
-        </p>
-      </div>
+                  if (successful) {
+                    toast.success('Markdown code copied to clipboard!');
+                  } else {
+                    toast.error('Failed to copy Markdown code to clipboard');
+                  }
+                }}
+              >
+                <CopyIcon size="8" />
+              </Button>
+            </div>
+            <div className="p-6 bg-gray-100 border rounded-md">{`![${metric} for ${repo}](${svgUrl})`}</div>
+            <p className="mt-2 text-sm text-gray-500">
+              Copy and paste this Markdown code to embed the chart in your
+              documents.
+            </p>
+          </div>
+        </>
+      )}
     </div>
   );
 };

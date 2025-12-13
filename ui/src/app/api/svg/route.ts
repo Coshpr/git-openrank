@@ -150,14 +150,26 @@ function generateSVG(
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const repo = searchParams.get('repo');
-  const metric = searchParams.get('metric') || 'openrank';
-  const platform = searchParams.get('platform') || 'github';
+  const metric = searchParams.get('metric');
+  const platform = searchParams.get('platform');
   const width = parseInt(searchParams.get('width') || '600');
   const height = parseInt(searchParams.get('height') || '300');
 
   // Validate required parameters
   if (!repo) {
     return new NextResponse('Missing required parameter: repo', {
+      status: 400,
+    });
+  }
+
+  if (!metric) {
+    return new NextResponse('Missing required parameter: metric', {
+      status: 400,
+    });
+  }
+
+  if (!platform) {
+    return new NextResponse('Missing required parameter: platform', {
       status: 400,
     });
   }
