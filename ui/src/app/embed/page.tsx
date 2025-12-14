@@ -21,7 +21,7 @@ export default function EmbedPage() {
   } = useEmbed();
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-black p-8">
+    <div className="min-h-[60vh] bg-zinc-50 dark:bg-black p-8">
       <div className="max-w-6xl mx-auto ">
         <h2 className="text-2xl font-bold mb-4">Embed Openrank SVG Chart</h2>
         <p className="mb-6 text-gray-600 dark:text-gray-300">

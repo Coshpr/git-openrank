@@ -10,7 +10,7 @@ export interface RepoData {
 }
 
 export const useEmbed = () => {
-  const [repo, setRepo] = useState('');
+  const [repo, setRepo] = useState('facebook/react');
   const [metric, setMetric] = useState('openrank');
   const [platform, setPlatform] = useState('github');
   const [width, setWidth] = useState('600');

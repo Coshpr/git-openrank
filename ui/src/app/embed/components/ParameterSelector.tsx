@@ -26,7 +26,7 @@ const ParameterSelector: React.FC<ParameterSelectorProps> = ({
 }) => {
   return (
     <>
-      <div className="min-w-[150px]">
+      <div className="">
         <label className="block text-sm font-medium mb-2">Platform</label>
         <Select value={platform} onValueChange={setPlatform}>
           <SelectTrigger>
@@ -42,7 +42,7 @@ const ParameterSelector: React.FC<ParameterSelectorProps> = ({
         </Select>
       </div>
 
-      <div className="min-w-[150px]">
+      <div className="">
         <label className="block text-sm font-medium mb-2">Metric</label>
         <Select value={metric} onValueChange={setMetric}>
           <SelectTrigger>
