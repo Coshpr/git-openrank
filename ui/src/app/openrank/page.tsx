@@ -2,7 +2,6 @@ import CountryRanking from './components/CountryRanking';
 import CompanyRanking from './components/CompanyRanking';
 import ProjectRanking from './components/ProjectRanking';
 import DeveloperRanking from './components/DeveloperRanking';
-import SvgDocumentation from '../embed/SvgDocumentation';
 import { openatom_metrics } from './metric';
 import RankingCard from './components/RankingCard';
 
@@ -48,12 +47,6 @@ export default async function DashboardPage() {
 
           <RankingCard title="Global Open Source Developer Ranking">
             <DeveloperRanking data={developerData} />
-          </RankingCard>
-        </div>
-
-        <div className="mt-8">
-          <RankingCard title="SVG Chart Generator">
-            <SvgDocumentation />
           </RankingCard>
         </div>
       </div>

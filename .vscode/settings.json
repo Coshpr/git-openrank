@@ -2,5 +2,10 @@
     "files.exclude": {
         "**/node_modules": true,
         "**/.next":true
-    }
+    },
+    "cSpell.words": [
+        "cmdk",
+        "openatom",
+        "Openrank"
+    ]
 }
