@@ -55,6 +55,7 @@ const SvgDocumentation = () => {
       const successful = document.execCommand('copy');
       document.body.removeChild(textArea);
       return successful;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       document.body.removeChild(textArea);
       return false;
@@ -66,6 +67,7 @@ const SvgDocumentation = () => {
       try {
         await navigator.clipboard.writeText(text);
         return true;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         // 如果现代剪贴板 API 失败，则使用备选方案
         return fallbackCopyTextToClipboard(text);
