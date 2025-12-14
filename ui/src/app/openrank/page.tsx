@@ -2,7 +2,7 @@ import CountryRanking from './components/CountryRanking';
 import CompanyRanking from './components/CompanyRanking';
 import ProjectRanking from './components/ProjectRanking';
 import DeveloperRanking from './components/DeveloperRanking';
-import SvgDocumentation from '../embed/SvgDocumentation';
+import SvgGenerator from '../embed/svg-generator';
 import { openatom_metrics } from './metric';
 import RankingCard from './components/RankingCard';
 
@@ -53,7 +53,7 @@ export default async function DashboardPage() {
 
         <div className="mt-8">
           <RankingCard title="SVG Chart Generator">
-            <SvgDocumentation />
+            <SvgGenerator />
           </RankingCard>
         </div>
       </div>
