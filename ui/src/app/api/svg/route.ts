@@ -55,7 +55,8 @@ export async function GET(request: Request) {
     return new NextResponse(svg, {
       headers: {
         'Content-Type': 'image/svg+xml',
-        'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
+        'Cache-Control':
+          'no-cache,no-store,must-revalidate,proxy-revalidate,max-age=0',
       },
     });
   } catch (error: unknown) {

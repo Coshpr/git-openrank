@@ -22,7 +22,9 @@ export async function fetchRepoMetric(
   const url = `${base_url}${platform}/${repo}/${metric}.json`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      cache: 'no-store',
+    });
     if (!response.ok) {
       throw new Error(
         `Failed to fetch data: ${response.status} ${response.statusText}`
