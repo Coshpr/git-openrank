@@ -1,3 +1,9 @@
+// Define the type for chart data points
+interface ChartDataPoint {
+  date: string;
+  [metric: string]: string | number;
+}
+
 // Helper function to format date for display
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -6,7 +12,7 @@ export function formatDate(dateString: string): string {
 
 // Helper function to generate SVG with chart data
 export function generateSVG(
-  chartData: any[],
+  chartData: ChartDataPoint[],
   repo: string,
   metric: string,
   width: number = 600,
@@ -29,7 +35,7 @@ export function generateSVG(
   let maxValue = -Infinity;
   const dates: string[] = [];
 
-  chartData.forEach((point: any) => {
+  chartData.forEach((point: ChartDataPoint) => {
     const value = point[metric];
     if (typeof value === 'number') {
       minValue = Math.min(minValue, value);
@@ -60,7 +66,7 @@ export function generateSVG(
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
-  chartData.forEach((point: any, index: number) => {
+  chartData.forEach((point: ChartDataPoint, index: number) => {
     const value = point[metric];
     if (typeof value === 'number') {
       const x = margin.left + (index / (chartData.length - 1)) * innerWidth;

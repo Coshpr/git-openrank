@@ -58,16 +58,17 @@ export async function GET(request: Request) {
         'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error generating SVG:', error);
 
     // Return error SVG
+    const errorMessage = error instanceof Error ? error.message : String(error);
     const errorSvg = `
       <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
         <rect width="100%" height="100%" fill="#f8f9fa"/>
         <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" 
               font-family="Arial, sans-serif" font-size="16" fill="#dc3545">
-          Error generating chart: ${error.message}
+          Error generating chart: ${errorMessage}
         </text>
       </svg>
     `;
