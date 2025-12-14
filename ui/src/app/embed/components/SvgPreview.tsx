@@ -14,12 +14,12 @@ interface SvgPreviewProps {
   repo: string;
 }
 
-const SvgPreview: React.FC<SvgPreviewProps> = ({ 
-  svgUrl, 
-  width, 
+const SvgPreview: React.FC<SvgPreviewProps> = ({
+  svgUrl,
+  width,
   height,
   metric,
-  repo
+  repo,
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -94,12 +94,7 @@ const SvgPreview: React.FC<SvgPreviewProps> = ({
   return (
     <>
       <div className="mb-6 flex gap-4 justify-start">
-        <Button
-          className=""
-          size="sm"
-          onClick={handleCopy}
-          variant="outline"
-        >
+        <Button className="" size="sm" onClick={handleCopy} variant="outline">
           <CopyIcon size="8" />
           {copied ? 'Copied!' : 'Link'}
         </Button>
@@ -108,9 +103,7 @@ const SvgPreview: React.FC<SvgPreviewProps> = ({
           className=""
           size="sm"
           onClick={() => {
-            // 确保只在浏览器环境中执行
             if (typeof window !== 'undefined') {
-              // 使用带属性的 window.open 确保窗口能够正确打开
               window.open(svgUrl, '_blank', 'noopener,noreferrer');
             }
           }}

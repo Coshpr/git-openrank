@@ -12,16 +12,17 @@ import { METRICS, PLATFORMS } from '@/lib/constants';
 
 interface ParameterSelectorProps {
   platform: string;
-  setPlatform: (value: string) => void;
   metric: string;
+  setPlatform: (value: string) => void;
+
   setMetric: (value: string) => void;
 }
 
-const ParameterSelector: React.FC<ParameterSelectorProps> = ({ 
-  platform, 
-  setPlatform,
+const ParameterSelector: React.FC<ParameterSelectorProps> = ({
+  platform,
   metric,
-  setMetric
+  setPlatform,
+  setMetric,
 }) => {
   return (
     <>
