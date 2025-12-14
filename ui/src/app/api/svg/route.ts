@@ -40,7 +40,7 @@ export async function GET(request: Request) {
 
     // Convert data to chart format and filter for valid date formats (YYYY-MM)
     const chartData = Object.entries(data)
-      .filter(([key]) => key.match(/^\d{4}(-\d{2})$/)) // Keep only year-month data
+      .filter(([key]) => key.match(/^\d{4}-\d{2}$/)) // Keep only year-month data
       .map(([date, value]) => ({
         date,
         repo,
@@ -51,12 +51,18 @@ export async function GET(request: Request) {
     // Generate SVG
     const svg = generateSVG(chartData, repo, metric, width, height);
 
+    // Get current timestamp to prevent caching
+    const timestamp = new Date().getTime();
+
     // Return SVG as response
     return new NextResponse(svg, {
       headers: {
         'Content-Type': 'image/svg+xml',
         'Cache-Control':
           'no-cache,no-store,must-revalidate,proxy-revalidate,max-age=0',
+        Expires: '0',
+        'Last-Modified': new Date().toUTCString(),
+        ETag: `"${timestamp}"`,
       },
     });
   } catch (error: unknown) {
@@ -74,9 +80,17 @@ export async function GET(request: Request) {
       </svg>
     `;
 
+    // Get current timestamp to prevent caching
+    const timestamp = new Date().getTime();
+
     return new NextResponse(errorSvg, {
       headers: {
         'Content-Type': 'image/svg+xml',
+        'Cache-Control':
+          'no-cache,no-store,must-revalidate,proxy-revalidate,max-age=0',
+        Expires: '0',
+        'Last-Modified': new Date().toUTCString(),
+        ETag: `"${timestamp}"`,
       },
     });
   }
