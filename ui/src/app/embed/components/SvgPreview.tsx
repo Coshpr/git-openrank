@@ -22,6 +22,7 @@ const SvgPreview: React.FC<SvgPreviewProps> = ({
   repo,
 }) => {
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // 替代方案复制函数
   const fallbackCopyTextToClipboard = (text: string) => {
@@ -115,13 +116,22 @@ const SvgPreview: React.FC<SvgPreviewProps> = ({
       </div>
 
       <div className="flex justify-center items-center mb-6">
+        {loading && (
+          <div
+            className="flex justify-center items-center border rounded-lg shadow-sm bg-gray-50"
+            style={{ width: parseInt(width), height: parseInt(height) }}
+          >
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
+        )}
         <Image
           src={svgUrl}
           alt="SVG Chart Preview"
           width={parseInt(width)}
           height={parseInt(height)}
           unoptimized={true}
-          className="max-w-full border rounded-lg shadow-sm"
+          className={`max-w-full border rounded-lg shadow-sm ${loading ? 'hidden' : 'block'}`}
+          onLoadingComplete={() => setLoading(false)}
         />
       </div>
 
