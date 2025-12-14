@@ -81,10 +81,6 @@ export const useSvgGenerator = () => {
     [repoData]
   );
 
-  useEffect(() => {
-    filterRepoOptions(repo);
-  }, [repo, filterRepoOptions]);
-
   const svgUrl = useMemo(() => {
     if (!repo) return '';
     const params = new URLSearchParams({
