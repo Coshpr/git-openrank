@@ -1,41 +1,26 @@
 'use client';
 
+import { Input } from '@/components/ui/input';
 import * as React from 'react';
-import { Check, ChevronsUpDown, Search } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 
-interface RepoSearchProps {
+interface RepoInputProps {
   repo: string;
   setRepo: (value: string) => void;
   repoOptions: { value: string; label: string }[];
   isLoading: boolean;
 }
 
-const RepoSearch: React.FC<RepoSearchProps> = ({
-  repo,
-  setRepo,
-  repoOptions,
-  isLoading,
-}) => {
+const RepoInput: React.FC<RepoInputProps> = ({ repo, setRepo, isLoading }) => {
   return (
     <div className="flex-1 min-w-[200px]">
       <label className="block text-sm font-medium mb-2">Repository</label>
 
       {/* input */}
+      <Input
+        value={repo}
+        onChange={e => setRepo(e.target.value)}
+        placeholder="input repo name"
+      />
 
       {isLoading && (
         <div className="absolute right-8 top-2.5 text-gray-400">
@@ -46,4 +31,4 @@ const RepoSearch: React.FC<RepoSearchProps> = ({
   );
 };
 
-export default RepoSearch;
+export default RepoInput;

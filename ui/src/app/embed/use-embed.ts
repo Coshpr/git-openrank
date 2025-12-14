@@ -9,7 +9,7 @@ export interface RepoData {
   repo_name: string;
 }
 
-export const useSvgGenerator = () => {
+export const useEmbed = () => {
   const [repo, setRepo] = useState('');
   const [metric, setMetric] = useState('openrank');
   const [platform, setPlatform] = useState('github');
